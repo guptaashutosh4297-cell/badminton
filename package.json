@@ -1,0 +1,23 @@
+{
+  "name": "badminton-reels-bot",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "remotion preview src/index.ts",
+    "build": "remotion render src/index.ts BadmintonReel out/video.mp4",
+    "pipeline": "node pipeline.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@remotion/cli": "4.0.260",
+    "dotenv": "^16.4.7",
+    "openai": "^4.86.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "4.0.260"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.18",
+    "typescript": "^5.7.3"
+  }
+}

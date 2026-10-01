@@ -1,0 +1,40 @@
+name: Daily Badminton Reel Bot
+
+on:
+  schedule:
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+
+jobs:
+  build-and-render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install System Dependencies (FFmpeg & Chromium)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg chromium-browser
+
+      - name: Install NPM Packages
+        run: npm ci
+
+      - name: Run Daily Video Pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npm run pipeline
+
+      - name: Upload Video as Workflow Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-badminton-reel
+          path: out/*.mp4
+          retention-days: 7
